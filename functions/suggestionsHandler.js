@@ -20,7 +20,7 @@ module.exports = {
     },
 
     addSuggestion: (msg, args, client) => {
-        if (args[0] === 'embarrass' || args[0] === 'joke' || args[0] === 'cmd' || args[0] === 'feedback') {
+        if (args[0] === 'quote' || args[0] === 'cmd' || args[0] === 'feedback') {
             let type = args[0];
             args.shift();
             if (!owners.isOwner(msg.author.id)) {
@@ -29,10 +29,10 @@ module.exports = {
                 fs.writeFileSync('./suggestions.json', JSON.stringify(module.exports.suggestions));
             }else {
                 msg.channel.createMessage('It\'s in the suggestions now!');
-                if (type === 'embarrass' || type === 'joke') {
+                if (type === 'quote') {
                     delete require.cache[require.resolve(`../lists.json`)];
                     var theLists = require('../lists.json');
-                    theLists[type === 'embarrass' ? 'embarrassingThings' : 'jokes'].push(args.join(' '));
+                    theLists['things'].push(args.join(' '));
                     fs.writeFileSync('./lists.json', JSON.stringify(theLists));
                     lists.reloadLists();
                 }else {
@@ -65,10 +65,10 @@ module.exports = {
                 client.getDMChannel(module.exports.suggestions[suggestionIndex].person).then(channel => {
                     channel.createMessage(`Your suggestion \`\`\`${module.exports.suggestions[suggestionIndex].suggestion}\`\`\` got approved!`);
                 });
-                if (module.exports.suggestions[suggestionIndex].type === 'embarrass' || module.exports.suggestions[suggestionIndex].type === 'joke') {
+                if (module.exports.suggestions[suggestionIndex].type === 'quote') {
                     delete require.cache[require.resolve(`../lists.json`)];
                     var theLists = require('../lists.json');
-                    theLists[module.exports.suggestions[suggestionIndex].type === 'embarrass' ? 'embarrassingThings' : 'jokes'].push(module.exports.suggestions[suggestionIndex].suggestion);
+                    theLists['things'].push(module.exports.suggestions[suggestionIndex].suggestion);
                     fs.writeFileSync('./lists.json', JSON.stringify(theLists));
                     lists.reloadLists();
                 }else {

@@ -50,9 +50,9 @@ function nextShard() {
         maxShards: nums.shardCount,
         getAllUsers: true
     }, {
-        description: 'We are now partnered with the discord bot DJ Putin! go check him out at <http://putin.ml:4276/> *use the suggestions command to suggest ideas! run "d!help suggest" for more help.*',
+        description: 'The wife of Dad Bot! Invite him at https://alekeagle.com/dad_bot',
         owner: 'AlekEagle#0001',
-        prefix: env.DEBUG ? 'test!' : 'd!'
+        prefix: env.DEBUG ? 'test!' : 'm!'
     });
     function onDBLVote(data) {
         client.getDMChannel(data.user).then(msg => {
@@ -63,7 +63,7 @@ function nextShard() {
     }
     if (i < nums.shardCount && !env.DEBUG) request.post(`https://maker.ifttt.com/trigger/process_started/with/key/${u_wut_m8.iftttToken}`,{
             json: {
-                value1: 'Dad Bot',
+                value1: 'Mom Bot',
                 value2: i.toString()
             }
         }, () => {
@@ -118,8 +118,8 @@ function nextShard() {
                             cmdFile.exec(client, msg, args);
                         }else {
                             msg.author.getDMChannel().then(chn => {
-                                chn.createMessage('You have been blacklisted from Dad bot! If you think this is a mistake, please go here https://alekeagle.com/discord and ask AlekEagle#0001 about this issue.').catch(() => {
-                                    msg.channel.createMessage(`<@${msg.author.id}> You have been blacklisted from Dad bot! If you think this is a mistake, please go here https://alekeagle.com/discord and ask AlekEagle#0001 about this issue.`)
+                                chn.createMessage('You have been blacklisted from Mom bot! If you think this is a mistake, please go here https://alekeagle.com/discord and ask AlekEagle#0001 about this issue.').catch(() => {
+                                    msg.channel.createMessage(`<@${msg.author.id}> You have been blacklisted from Mom bot! If you think this is a mistake, please go here https://alekeagle.com/discord and ask AlekEagle#0001 about this issue.`)
                                 })
                             })
                         }
@@ -174,12 +174,12 @@ function nextShard() {
                             evaluation = evaluation.replace(client.token, '(insert token here)')
                         }
                         if (evaluation.length > 2000) {
-                            fs.writeFile('/home/pi/node_server/root/dad_bot/eval_out/eval_output.txt', evaluation.replace(/\n/g, '<br>'), (err) => {
+                            fs.writeFile('/home/pi/node_server/root/mom_bot/eval_out/eval_output.txt', evaluation.replace(/\n/g, '<br>'), (err) => {
                                 if (err != undefined) {
                                     res.end('An error occurred while this action was being preformed error code: `' + err.code + '`')
                                 }
                             });
-                            res.end('Output too large, it should be on your website at https://alekeagle.com/Dad_bot/eval_out')
+                            res.end('Output too large, it should be on your website at https://alekeagle.com/Mom_bot/eval_out')
                         }else {
                             res.end(evaluation)
                         }
@@ -188,12 +188,12 @@ function nextShard() {
                     }
                 })
             })
-            server.listen(parseInt(`420${i}`))
+            server.listen(parseInt(`427${i}`))
         }
         if (i < nums.shardCount && !env.DEBUG) {
             request.post(`https://maker.ifttt.com/trigger/bot_restarted/with/key/${u_wut_m8.iftttToken}`,{
                 json: {
-                    value1: 'Dad Bot',
+                    value1: 'Mom Bot',
                     value2: client.options.firstShardID.toString()
                 }
             }, () => {
@@ -206,7 +206,7 @@ function nextShard() {
         }else if (!env.DEBUG) {
             request.post(`https://maker.ifttt.com/trigger/bot_reconnected/with/key/${u_wut_m8.iftttToken}`,{
                 json: {
-                    value1: 'Dad Bot',
+                    value1: 'Mom Bot',
                     value2: client.options.firstShardID.toString()
                 }
             }, () => {
@@ -243,8 +243,8 @@ function nextShard() {
                 cmdFile.exec(client, msg, args);
             }else {
                 msg.author.getDMChannel().then(chn => {
-                    chn.createMessage('You have been blacklisted from Dad bot! If you think this is a mistake, please go here https://alekeagle.com/discord and ask AlekEagle#0001 about this issue.').catch(() => {
-                        msg.channel.createMessage(`<@${msg.author.id}> You have been blacklisted from Dad bot! If you think this is a mistake, please go here https://alekeagle.com/discord and ask AlekEagle#0001 about this issue.`)
+                    chn.createMessage('You have been blacklisted from Mom bot! If you think this is a mistake, please go here https://alekeagle.com/discord and ask AlekEagle#0001 about this issue.').catch(() => {
+                        msg.channel.createMessage(`<@${msg.author.id}> You have been blacklisted from Mom bot! If you think this is a mistake, please go here https://alekeagle.com/discord and ask AlekEagle#0001 about this issue.`)
                     })
                 })
             }

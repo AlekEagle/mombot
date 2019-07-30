@@ -8,12 +8,12 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize(`postgres://alekeagle:${u_wut_m8.serverPass}@127.0.0.1:5432/alekeagle`, {
     logging: false
 });
-class Prefixes extends Sequelize.Model {};
-Prefixes.init({
+class MomPrefixes extends Sequelize.Model {};
+MomPrefixes.init({
     serverID: Sequelize.STRING,
     prefix: Sequelize.STRING
 }, { sequelize });
-Prefixes.sync({
+MomPrefixes.sync({
     force: false
 }).then(() => {
     console.log('Prefixes synced to database successfully!');
@@ -26,7 +26,7 @@ class thisModule extends EventEmitter {
         return new Promise((resolve, reject) => {
             switch (value.action) {
                 case 'add':
-                    Prefixes.findOne({
+                    MomPrefixes.findOne({
                         where: {
                             serverID: value.serverID
                         }
@@ -40,7 +40,7 @@ class thisModule extends EventEmitter {
                                 reject(err);
                             })
                         }else {
-                            Prefixes.create({
+                            MomPrefixes.create({
                                 serverID: value.serverID,
                                 prefix: value.prefix
                             }).then(prefix => {
@@ -57,7 +57,7 @@ class thisModule extends EventEmitter {
                     });
                 break;
                 case 'refresh':
-                    Prefixes.findAll().then(prefixes => {
+                    MomPrefixes.findAll().then(prefixes => {
                         prefixes.forEach(p => {
                             value.client.registerGuildPrefix(p.serverID, p.prefix);
                         });
@@ -68,7 +68,7 @@ class thisModule extends EventEmitter {
                     });
                 break;
                 case 'remove':
-                    Prefixes.findOne({
+                    MomPrefixes.findOne({
                         where: {
                             serverID: value.serverID
                         }

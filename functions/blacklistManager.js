@@ -6,31 +6,17 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize(`postgres://alekeagle:${u_wut_m8.serverPass}@127.0.0.1:5432/alekeagle`, {
     logging: false
 });
-class Blacklist extends Sequelize.Model {};
-Blacklist.init({
+class MomBlacklist extends Sequelize.Model {};
+MomBlacklist.init({
     type: Sequelize.INTEGER,
     userId: Sequelize.STRING
 }, {
     sequelize
 });
-Blacklist.sync({
+MomBlacklist.sync({
     force: false
 }).then(() => {
     console.log('Blacklist synced to database successfully!');
-}).catch(err => {
-    console.error('an error occured while proforming this operation');
-    console.error(err);
-});
-class PBlacklist extends Sequelize.Model {};
-PBlacklist.init({
-    userId: Sequelize.STRING
-}, {
-    sequelize
-});
-PBlacklist.sync({
-    force: false
-}).then(() => {
-    console.log('PBlacklist synced to database successfully!');
 }).catch(err => {
     console.error('an error occured while proforming this operation');
     console.error(err);
@@ -55,9 +41,6 @@ module.exports = {
         users: [],
         servers: [],
         channels: []
-    },
-    pblacklist: {
-        servers: []
     },
     gblacklist: {
         users: []
@@ -111,17 +94,6 @@ module.exports = {
                                 break;
                             }
                         break;
-                        case 'pblk':
-                            module.exports.pblacklist.servers.push(value.id);
-                            PBlacklist.create({
-                                userId: value.id
-                            }).then(() => {
-                                resolve(module.exports.pblacklist.servers.length);
-                            }, err => {
-                                reject(err);
-                                console.error(err);
-                            });
-                        break;
                         case 'gblk':
                             module.exports.gblacklist.users.push(value.id);
                             GBlacklist.create({
@@ -148,17 +120,6 @@ module.exports = {
                                     else if (e.type === 2) module.exports.blacklist.channels.push(e.userId);
                                 });
                                 resolve(module.exports.blacklist);
-                            }, err => {
-                                reject(err);
-                                console.log(err);
-                            });
-                        break;
-                        case 'pblk':
-                            PBlacklist.findAll().then(pBlacklistContents => {
-                                pBlacklistContents.forEach(e => {
-                                    module.exports.pblacklist.servers.push(e.userId);
-                                });
-                                resolve(module.exports.pblacklist);
                             }, err => {
                                 reject(err);
                                 console.log(err);
@@ -236,21 +197,6 @@ module.exports = {
                                     reject(`${value.type} does not exist.`);
                                 break;
                             }
-                        break;
-                        case 'pblk':
-                            module.exports.pblacklist.servers = module.exports.pblacklist.servers.filter(u => u !== value.id)
-                            PBlacklist.findOne({
-                                where: {
-                                    userId: value.id
-                                }
-                            }).then(user => {
-                                user.destroy().then(() => {
-                                    resolve(module.exports.pblacklist.servers.length);
-                                })
-                            }, err => {
-                                reject(err);
-                                console.log(err);
-                            });
                         break;
                         case 'gblk':
                             module.exports.gblacklist.users = module.exports.gblacklist.users.filter(u => u !== value.id)
