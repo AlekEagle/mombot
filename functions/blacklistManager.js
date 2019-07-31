@@ -55,7 +55,7 @@ module.exports = {
                             switch (value.type) {
                                 case 'user':
                                     module.exports.blacklist.users.push(value.id);
-                                    Blacklist.create({
+                                    MomBlacklist.create({
                                         type: 0,
                                         userId: value.id
                                     }).then(() => {
@@ -67,7 +67,7 @@ module.exports = {
                                 break;
                                 case 'server':
                                     module.exports.blacklist.servers.push(value.id);
-                                    Blacklist.create({
+                                    MomBlacklist.create({
                                         type: 1,
                                         userId: value.id
                                     }).then(() => {
@@ -79,7 +79,7 @@ module.exports = {
                                 break;
                                 case 'channel':
                                     module.exports.blacklist.channels.push(value.id);
-                                    Blacklist.create({
+                                    MomBlacklist.create({
                                         type: 2,
                                         userId: value.id
                                     }).then(() => {
@@ -113,7 +113,7 @@ module.exports = {
                 case 'refresh':
                     switch (value.blklist) {
                         case 'blk':
-                            Blacklist.findAll().then(blacklistContents => {
+                            MomBlacklist.findAll().then(blacklistContents => {
                                 blacklistContents.forEach(e => {
                                     if (e.type === 0) module.exports.blacklist.users.push(e.userId);
                                     else if (e.type === 1) module.exports.blacklist.servers.push(e.userId);
@@ -147,7 +147,7 @@ module.exports = {
                             switch (value.type) {
                                 case 'user':
                                     module.exports.blacklist.users = module.exports.blacklist.users.filter(u => u !== value.id)
-                                    Blacklist.findOne({
+                                    MomBlacklist.findOne({
                                         where: {
                                             type: 0,
                                             userId: value.id
@@ -163,7 +163,7 @@ module.exports = {
                                 break;
                                 case 'server':
                                     module.exports.blacklist.servers = module.exports.blacklist.servers.filter(u => u !== value.id)
-                                    Blacklist.findOne({
+                                    MomBlacklist.findOne({
                                         where: {
                                             type: 1,
                                             userId: value.id
@@ -179,7 +179,7 @@ module.exports = {
                                 break;
                                 case 'channel':
                                     module.exports.blacklist.channels = module.exports.blacklist.channels.filter(u => u !== value.id)
-                                    Blacklist.findOne({
+                                    MomBlacklist.findOne({
                                         where: {
                                             type: 2,
                                             userId: value.id
