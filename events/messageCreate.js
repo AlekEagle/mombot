@@ -13,9 +13,11 @@ module.exports = {
         if (!manager.blacklist.users.includes(msg.author.id) && !manager.blacklist.channels.includes(msg.channel.id) && !manager.blacklist.servers.includes(msg.channel.guild.id) && !msg.author.bot) {
             if (msg.content.match(swears)) {
                 msg.channel.createMessage(`HEY <@${msg.author.id}> NO SWEARING IN MY PRESENCE OR I WILL BE MAD!!!!!!!!!!!!!`).catch(() => { });
+                ++nums.responses;
             }
             if (Math.floor(Math.random() * 15) === 14) {
                 msg.channel.createMessage(lists.things[Math.floor(Math.random() * lists.things.length)]).catch(() => { });
+                ++nums.responses;
             }
         }
     }
