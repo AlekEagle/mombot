@@ -12,12 +12,15 @@ module.exports = {
         ++nums.msgsRead;
         if (!manager.blacklist.users.includes(msg.author.id) && !manager.blacklist.channels.includes(msg.channel.id) && !manager.blacklist.servers.includes(msg.channel.guild.id) && !msg.author.bot) {
             if (msg.content.match(swears)) {
-                msg.channel.createMessage(`HEY <@${msg.author.id}> NO SWEARING IN MY PRESENCE OR I WILL BE MAD!!!!!!!!!!!!!`).catch(() => { });
+                msg.channel.sendTyping();
+                setTimeout(() => {
+                    msg.channel.createMessage(`HEY <@${msg.author.id}> NO SWEARING IN MY PRESENCE OR I WILL BE MAD!!!!!!!!!!!!!`).catch(() => { });
+                }, 8000);
                 ++nums.responses;
             }
             if (Math.floor(Math.random() * 20) === 19) {
                 var thing = lists.things[Math.floor(Math.random() * lists.things.length)],
-                    time = thing.length * 50;
+                    time = thing.length * 125;
                 msg.channel.sendTyping();
                 setTimeout(() => {
                     msg.channel.createMessage(thing).catch(() => { });
