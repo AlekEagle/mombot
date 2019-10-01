@@ -13,10 +13,7 @@ module.exports = {
         if (!manager.blacklist.users.includes(msg.author.id) && !manager.blacklist.channels.includes(msg.channel.id) && !manager.blacklist.servers.includes(msg.channel.guild.id) && !msg.author.bot) {
             if (msg.content.match(swears)) {
                 msg.channel.sendTyping();
-                var timeout = setTimeout(() => {
-                    msg.channel.createMessage(`HEY <@${msg.author.id}> NO SWEARING IN MY PRESENCE OR I WILL BE MAD!!!!!!!!!!!!!`).catch(() => { });
-                }, 8000);
-                client.on('messageDelete', message => {
+                function messageDelete(message) {
                     if (message.id === msg.id) {
                         clearTimeout(timeout);
                         msg.channel.sendTyping();
@@ -24,7 +21,12 @@ module.exports = {
                             msg.channel.createMessage(`I saw you say that <@${msg.author.id}>, dont think i didnt see that. I have eyes in the back of me you know.`);
                         }, 9000)
                     }
-                });
+                }
+                client.on('messageDelete', messageDelete);
+                var timeout = setTimeout(() => {
+                    msg.channel.createMessage(`HEY <@${msg.author.id}> NO SWEARING IN MY PRESENCE OR I WILL BE MAD!!!!!!!!!!!!!`).catch(() => { });
+                    client.off('messageDelete', messageDelete);
+                }, 8000);
                 ++nums.responses;
             }
             if (Math.floor(Math.random() * 30) === 29) {
