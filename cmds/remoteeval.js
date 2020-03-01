@@ -10,7 +10,7 @@ module.exports = {
         if(owners.isOwner(msg.author.id)) {
             request({
                 method: 'POST',
-                url: `http://127.0.0.1:420${args[0]}/eval`,
+                url: `http://127.0.0.1:427${args[0]}/eval`,
                 body: args.slice(1).join(' ')
             }, (err, res, body) => {
                 if (err) {
