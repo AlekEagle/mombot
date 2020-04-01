@@ -8,9 +8,9 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize(`postgres://alekeagle:${u_wut_m8.serverPass}@127.0.0.1:5432/alekeagle`, {
     logging: false
 });
-class MomPrefixes extends Sequelize.Model {};
+class MomPrefixes extends Sequelize.Model { };
 MomPrefixes.init({
-    serverID: Sequelize.STRING,
+    serverID: { type: Sequelize.STRING, primaryKey: true },
     prefix: Sequelize.STRING
 }, { sequelize });
 MomPrefixes.sync({
@@ -32,14 +32,14 @@ class thisModule extends EventEmitter {
                         }
                     }).then(prefix => {
                         if (prefix) {
-                            prefix.update({prefix: value.prefix}).then(p => {
+                            prefix.update({ prefix: value.prefix }).then(p => {
                                 this.emit('updatePrefix', p.serverID, p.prefix);
                                 resolve();
                             }, err => {
                                 console.error(err);
                                 reject(err);
                             })
-                        }else {
+                        } else {
                             MomPrefixes.create({
                                 serverID: value.serverID,
                                 prefix: value.prefix
@@ -55,7 +55,7 @@ class thisModule extends EventEmitter {
                         console.error(err);
                         reject(err);
                     });
-                break;
+                    break;
                 case 'refresh':
                     MomPrefixes.findAll().then(prefixes => {
                         prefixes.forEach(p => {
@@ -66,7 +66,7 @@ class thisModule extends EventEmitter {
                         console.error(err);
                         reject(err);
                     });
-                break;
+                    break;
                 case 'remove':
                     MomPrefixes.findOne({
                         where: {
@@ -81,17 +81,17 @@ class thisModule extends EventEmitter {
                                 console.error(err);
                                 reject(err);
                             });
-                        }else {
+                        } else {
                             resolve();
                         }
                     }, err => {
                         console.error(err);
                         reject(err);
                     })
-                break;
-                default: 
+                    break;
+                default:
                     reject(`${value.action} does not exist.`);
-                break;
+                    break;
             }
         })
     }
