@@ -23,7 +23,7 @@ MomBlacklist.sync({
 });
 class GBlacklist extends Sequelize.Model {};
 GBlacklist.init({
-    userId: Sequelize.STRING
+    userId: {type: Sequelize.STRING, primaryKey: true}
 }, {
     sequelize
 });
