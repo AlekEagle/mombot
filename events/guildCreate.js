@@ -2,6 +2,9 @@
 
 let guildCount = require('../functions/getGuilds');
 let u_wut_m8 = require('../.auth.json');
+let nums = require('../functions/numbers');
+let DBL = require('dblapi.js');
+const dbl = new DBL(u_wut_m8.dblToken, {});
 
 module.exports = {
     name: 'guildCreate',
@@ -50,21 +53,6 @@ module.exports = {
                                 inline: true
                             },
                             {
-                                name: 'Categories',
-                                value: guild.channels.filter(c => c.type === 4).length,
-                                inline: true
-                            },
-                            {
-                                name: 'Text Channels',
-                                value: guild.channels.filter(c => c.type === 0).length,
-                                inline: true
-                            },
-                            {
-                                name: 'Voice Channels',
-                                value: guild.channels.filter(c => c.type === 2).length,
-                                inline: true
-                            },
-                            {
                                 name: 'Shard',
                                 value: guild.shard.id,
                                 inline: true
@@ -83,5 +71,6 @@ module.exports = {
                 ]
             });
         });
+        dbl.postStats(client.guilds.size, client.options.firstShardID, nums.shardCount);
     }
 }
