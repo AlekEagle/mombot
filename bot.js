@@ -16,7 +16,6 @@ let suggestions = require('./functions/suggestionsHandler');
 let i = 0;
 const Sentry = require('@sentry/node');
 Sentry.init({ dsn: 'https://81fb39c6a5904886ba26a90e2a6ea8aa@sentry.io/1407724' });
-const dbl = new DBL(u_wut_m8.dblToken, {});
 manager.manageBlacklist({action: 'refresh', blklist: 'blk'}).then(list => {
     console.log(`Loaded blacklist. There are currently ${list.users.length} user entry(s), ${list.servers.length} server entry(s), and ${list.channels.length} channel entry(s).`);
 }, (err) => {
