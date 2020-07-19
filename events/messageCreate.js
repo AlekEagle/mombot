@@ -11,6 +11,7 @@ module.exports = {
 
     exec: (client, msg) => {
         ++nums.msgsRead;
+        if (msg.author.bot) return;
         settings.getValueByID(msg.channel.guild.id).then(stat => {
             if (!settings.getFlags(stat.flags).includes('SWEAR_RESPONSES')) return;
             settings.getValueByID(msg.channel.id).then(stat => {
