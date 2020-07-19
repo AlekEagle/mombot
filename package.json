@@ -5,18 +5,18 @@
   "main": "bot.js",
   "author": "AlekEagleYT",
   "dependencies": {
-    "@sentry/node": "^4.6.6",
-    "chalk": "^2.4.2",
-    "collections": "^5.1.9",
-    "dblapi.js": "^2.3.0",
-    "eris": "^0.10.0",
-    "eris-command-handler": "^1.0.2",
+    "@sentry/node": "^5.19.2",
+    "chalk": "^4.1.0",
+    "collections": "^5.1.11",
+    "dblapi.js": "^2.4.0",
+    "eris": "^0.13.3",
+    "eris-command-handler": "^1.1.4",
     "express": "^4.17.1",
     "ms": "^2.1.2",
-    "pg": "^7.11.0",
+    "pg": "^8.3.0",
     "pg-hstore": "^2.3.3",
     "process-cpu-utilization": "^1.0.2",
-    "request": "^2.88.0",
-    "sequelize": "^5.10.0"
+    "request": "^2.88.2",
+    "sequelize": "^6.3.3"
   }
 }
