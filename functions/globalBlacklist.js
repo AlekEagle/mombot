@@ -62,8 +62,8 @@ module.exports = {
                     id: opts.id
                 }
             }));
-            if (value === null) GlobalBlacklist.create(opts); else {
-                let newVal = await value.update({id: opts.id, cmds: opts.cmds});
+            if (value === null) return GlobalBlacklist.create(opts); else {
+                let newVal = await value.update(opts);
                 cache[opts.id] = newVal;
                 return newVal;
             }
