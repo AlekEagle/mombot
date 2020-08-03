@@ -10,7 +10,7 @@ module.exports = {
     name: 'globalblacklist',
 
     exec: (client, msg, args) => {
-        if (permissionOverwrites(msg.channel, client.user.id, 'manageMessages') === null ? !msg.channel.guild.members.get(client.user.id).permission.has('manageMessages') : !permissionOverwrites(msg.channel, client.user.id, 'manageMessages')) {
+        if (msg.channel.permissionsOf(client.user.id).has('manageMessages')) {
             return;
         }
         if (!owners.isOwner(msg.author.id)) {
