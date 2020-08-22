@@ -25,7 +25,7 @@ module.exports = {
                             globalBlacklist.getValueByID(msg.author.id).then(stat => {
                                 if (stat) return;
                                 if (msg.content.match(swears)) {
-                                    msg.channel.sendTyping();
+                                    msg.channel.sendTyping().catch(err => {});;
                                     function messageDelete(message) {
                                         if (message.id === msg.id) {
                                             clearTimeout(timeout);
@@ -63,7 +63,7 @@ module.exports = {
                                 if (Math.floor(Math.random() * 30) === 29) {
                                     var thing = lists.things[Math.floor(Math.random() * lists.things.length)],
                                         time = thing.length * 125;
-                                    msg.channel.sendTyping();
+                                    msg.channel.sendTyping().catch(err => {});;
                                     setTimeout(() => {
                                         msg.channel.createMessage(thing).catch(() => { });
                                     }, time);
