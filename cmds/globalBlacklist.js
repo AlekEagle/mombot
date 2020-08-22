@@ -3,8 +3,7 @@
 const owners = require('../functions/getOwners'),
     globalBlacklist = require('../functions/globalBlacklist'),
     ms = require('ms'),
-    numPerPage = 5,
-    permissionOverwrites = require('../functions/permissionOverwrites');
+    numPerPage = 5;
 
 module.exports = {
     name: 'globalblacklist',
@@ -166,6 +165,7 @@ module.exports = {
                                     state = 'addblacklistitemid';
                                     msg.channel.createMessage('Say the ID of the user, channel, or guild you would like to add to the blacklist.').then(messg => {
                                         let id, cmds;
+
                                         function handleAddBlacklistItem(messag) {
                                             if (messag.author.id !== msg.author.id || messag.channel.id !== msg.channel.id) return;
                                             switch (state) {
@@ -182,7 +182,10 @@ module.exports = {
                                                     setTimeout(() => {
                                                         messg.delete();
                                                     }, ms('5sec'));
-                                                    globalBlacklist.updateValue({id, cmds}).then(() => {
+                                                    globalBlacklist.updateValue({
+                                                        id,
+                                                        cmds
+                                                    }).then(() => {
                                                         client.off('messageCreate', handleAddBlacklistItem);
                                                         state = 'mainmenu';
                                                         globalBlacklist.GlobalBlacklist.findAll().then(values => {
@@ -252,6 +255,7 @@ module.exports = {
                                     state = 'editblacklistitem';
                                     msg.channel.createMessage(`Editing \`${values.slice(0 + (numPerPage * page), numPerPage + (numPerPage * page))[cursorPos].id}\`, send me a comma separated string of all the commands this entry will be blacklisted from!`).then(messg => {
                                         let cmds;
+
                                         function handleEditBlacklistItem(messag) {
                                             if (messag.author.id !== msg.author.id || messag.channel.id !== msg.channel.id) return;
                                             cmds = messag.content.split(/, ?/g);
@@ -260,30 +264,33 @@ module.exports = {
                                             setTimeout(() => {
                                                 messg.delete();
                                             }, ms('5sec'));
-                                            globalBlacklist.updateValue({id: values.slice(0 + (numPerPage * page), numPerPage + (numPerPage * page))[cursorPos].id, cmds}).then(() => {
+                                            globalBlacklist.updateValue({
+                                                id: values.slice(0 + (numPerPage * page), numPerPage + (numPerPage * page))[cursorPos].id,
+                                                cmds
+                                            }).then(() => {
                                                 client.off('messageCreate', handleEditBlacklistItem);
-                                            state = 'mainmenu';
-                                            globalBlacklist.GlobalBlacklist.findAll().then(values => {
-                                                message.edit({
-                                                    embed: {
-                                                        title: 'Bad People, Servers, and Channels',
-                                                        thumbnail: {
-                                                            url: client.user.dynamicAvatarURL('png', 512)
-                                                        },
-                                                        description: 'Blacklist Manager 1.5.8',
-                                                        fields: values.slice(0 + (numPerPage * page), numPerPage + (numPerPage * page)).map((v, i, c) => {
-                                                            return {
-                                                                name: `${cursorPos === i ? '> ': ''}${v.id}`,
-                                                                value: `\`\`\`\n${v.cmds.join('\n')}\`\`\``,
-                                                                inline: false
-                                                            };
-                                                        }),
-                                                        footer: {
-                                                            text: `Page ${page+1} of ${Math.ceil(values.length / numPerPage)}`
+                                                state = 'mainmenu';
+                                                globalBlacklist.GlobalBlacklist.findAll().then(values => {
+                                                    message.edit({
+                                                        embed: {
+                                                            title: 'Bad People, Servers, and Channels',
+                                                            thumbnail: {
+                                                                url: client.user.dynamicAvatarURL('png', 512)
+                                                            },
+                                                            description: 'Blacklist Manager 1.5.8',
+                                                            fields: values.slice(0 + (numPerPage * page), numPerPage + (numPerPage * page)).map((v, i, c) => {
+                                                                return {
+                                                                    name: `${cursorPos === i ? '> ': ''}${v.id}`,
+                                                                    value: `\`\`\`\n${v.cmds.join('\n')}\`\`\``,
+                                                                    inline: false
+                                                                };
+                                                            }),
+                                                            footer: {
+                                                                text: `Page ${page+1} of ${Math.ceil(values.length / numPerPage)}`
+                                                            }
                                                         }
-                                                    }
+                                                    });
                                                 });
-                                            });
                                             });
                                         }
                                         client.on('messageCreate', handleEditBlacklistItem);

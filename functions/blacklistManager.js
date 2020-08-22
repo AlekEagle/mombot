@@ -23,7 +23,10 @@ MomBlacklist.sync({
 });
 class GBlacklist extends Sequelize.Model {};
 GBlacklist.init({
-    userId: {type: Sequelize.STRING, primaryKey: true}
+    userId: {
+        type: Sequelize.STRING,
+        primaryKey: true
+    }
 }, {
     sequelize
 });
@@ -64,7 +67,7 @@ module.exports = {
                                         reject(err);
                                         console.error(err);
                                     });
-                                break;
+                                    break;
                                 case 'server':
                                     module.exports.blacklist.servers.push(value.id);
                                     MomBlacklist.create({
@@ -76,7 +79,7 @@ module.exports = {
                                         reject(err);
                                         console.error(err);
                                     });
-                                break;
+                                    break;
                                 case 'channel':
                                     module.exports.blacklist.channels.push(value.id);
                                     MomBlacklist.create({
@@ -88,12 +91,12 @@ module.exports = {
                                         reject(err);
                                         console.error(err);
                                     });
-                                break;
-                                default: 
+                                    break;
+                                default:
                                     reject(`${value.type} does not exist.`);
-                                break;
+                                    break;
                             }
-                        break;
+                            break;
                         case 'gblk':
                             module.exports.gblacklist.users.push(value.id);
                             GBlacklist.create({
@@ -104,10 +107,10 @@ module.exports = {
                                 reject(err);
                                 console.error(err);
                             });
-                        break;
-                        default: 
+                            break;
+                        default:
                             reject(`${value.blklist} does not exist.`);
-                        break;
+                            break;
                     }
                     break;
                 case 'refresh':
@@ -124,7 +127,7 @@ module.exports = {
                                 reject(err);
                                 console.log(err);
                             });
-                        break;
+                            break;
                         case 'gblk':
                             GBlacklist.findAll().then(gBlacklistContents => {
                                 gBlacklistContents.forEach(e => {
@@ -135,10 +138,10 @@ module.exports = {
                                 reject(err);
                                 console.log(err);
                             });
-                        break;
-                        default: 
+                            break;
+                        default:
                             reject(`${value.blklist} does not exist.`);
-                        break;
+                            break;
                     }
                     break;
                 case 'remove':
@@ -160,7 +163,7 @@ module.exports = {
                                         reject(err);
                                         console.log(err);
                                     });
-                                break;
+                                    break;
                                 case 'server':
                                     module.exports.blacklist.servers = module.exports.blacklist.servers.filter(u => u !== value.id)
                                     MomBlacklist.findOne({
@@ -176,7 +179,7 @@ module.exports = {
                                         reject(err);
                                         console.log(err);
                                     });
-                                break;
+                                    break;
                                 case 'channel':
                                     module.exports.blacklist.channels = module.exports.blacklist.channels.filter(u => u !== value.id)
                                     MomBlacklist.findOne({
@@ -192,12 +195,12 @@ module.exports = {
                                         reject(err);
                                         console.log(err);
                                     });
-                                break;
-                                default: 
+                                    break;
+                                default:
                                     reject(`${value.type} does not exist.`);
-                                break;
+                                    break;
                             }
-                        break;
+                            break;
                         case 'gblk':
                             module.exports.gblacklist.users = module.exports.gblacklist.users.filter(u => u !== value.id)
                             GBlacklist.findOne({
@@ -212,15 +215,15 @@ module.exports = {
                                 reject(err);
                                 console.log(err);
                             });
-                        break;
-                        default: 
+                            break;
+                        default:
                             reject(`${value.blklist} does not exist.`);
-                        break;
+                            break;
                     }
-                break;
-                default: 
+                    break;
+                default:
                     reject(`${value.action} does not exist.`);
-                break;
+                    break;
             }
         });
     }

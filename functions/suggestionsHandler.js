@@ -3,7 +3,6 @@
 const fs = require('fs');
 const owners = require('../functions/getOwners');
 const lists = require('../functions/lists');
-const getUser = require('../functions/userAcrossShards');
 
 module.exports = {
     suggestions: [],
@@ -47,7 +46,7 @@ module.exports = {
                                 },
                                 {
                                     name: 'Suggested By',
-                                    value: `${getUser(msg.author.id).username}#${getUser(msg.author.id).discriminator} (${msg.author.id})`
+                                    value: `${client.users.get(msg.author.id).username}#${client.users.get(msg.author.id).discriminator} (${msg.author.id})`
                                 }
                             ]
                         }
@@ -80,7 +79,7 @@ module.exports = {
                                 },
                                 {
                                     name: 'Suggested By',
-                                    value: `${getUser(module.exports.suggestions[suggestionIndex].person).username}#${getUser(module.exports.suggestions[suggestionIndex].person).discriminator} (${module.exports.suggestions[suggestionIndex].person})`
+                                    value: `${client.users.get(module.exports.suggestions[suggestionIndex].person).username}#${client.users.get(module.exports.suggestions[suggestionIndex].person).discriminator} (${module.exports.suggestions[suggestionIndex].person})`
                                 }
                             ]
                         }

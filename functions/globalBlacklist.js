@@ -7,9 +7,12 @@ const sequelize = new Sequelize(`postgres://alekeagle:${u_wut_m8.serverPass}@127
     logging: false
 });
 
-class GlobalBlacklist extends Sequelize.Model { };
+class GlobalBlacklist extends Sequelize.Model {};
 GlobalBlacklist.init({
-    id: { type: Sequelize.DataTypes.STRING, primaryKey: true },
+    id: {
+        type: Sequelize.DataTypes.STRING,
+        primaryKey: true
+    },
     cmds: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING)
 }, {
     sequelize
@@ -46,7 +49,7 @@ module.exports = {
         if (value) {
             cache[id] = value;
             return value;
-        }else return null;
+        } else return null;
     },
     updateValue: async (opts) => {
         if (opts.cmds.length === 0) {
@@ -56,13 +59,14 @@ module.exports = {
                     id: opts.id
                 }
             });
-        }else {
+        } else {
             let value = (await GlobalBlacklist.findOne({
                 where: {
                     id: opts.id
                 }
             }));
-            if (value === null) return GlobalBlacklist.create(opts); else {
+            if (value === null) return GlobalBlacklist.create(opts);
+            else {
                 let newVal = await value.update(opts);
                 cache[opts.id] = newVal;
                 return newVal;

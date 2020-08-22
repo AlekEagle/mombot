@@ -3,8 +3,7 @@
 const settings = require('../functions/settings'),
     prefixes = require('../functions/managePrefixes'),
     owners = require('../functions/getOwners'),
-    ms = require('ms'),
-    permissionOverwrites = require('../functions/permissionOverwrites');
+    ms = require('ms');
 
 module.exports = {
     name: 'settings',
@@ -77,17 +76,17 @@ module.exports = {
                                                         url: msg.channel.guild.dynamicIconURL(msg.channel.guild.icon.startsWith('a_') ? 'gif' : 'png', 256)
                                                     },
                                                     fields: [{
-                                                        name: `${selection === settings.flags.indexOf('SWEAR_RESPONSES') ? '> ' : ''}Swear Responses`,
-                                                        value: `are currently \`${settings.getFlags(guildSettings.flags).includes('SWEAR_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
-                                                    },
-                                                    {
-                                                        name: `${selection === settings.flags.indexOf('RANDOM_RESPONSES') ? '> ' : ''}Random Responses`,
-                                                        value: `are currently \`${settings.getFlags(guildSettings.flags).includes('RANDOM_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
-                                                    },
-                                                    {
-                                                        name: 'Prefix',
-                                                        value: client.guildPrefixes[msg.channel.guild.id] ? client.guildPrefixes[msg.channel.guild.id] : client.commandOptions.prefix
-                                                    }
+                                                            name: `${selection === settings.flags.indexOf('SWEAR_RESPONSES') ? '> ' : ''}Swear Responses`,
+                                                            value: `are currently \`${settings.getFlags(guildSettings.flags).includes('SWEAR_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
+                                                        },
+                                                        {
+                                                            name: `${selection === settings.flags.indexOf('RANDOM_RESPONSES') ? '> ' : ''}Random Responses`,
+                                                            value: `are currently \`${settings.getFlags(guildSettings.flags).includes('RANDOM_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
+                                                        },
+                                                        {
+                                                            name: 'Prefix',
+                                                            value: client.guildPrefixes[msg.channel.guild.id] ? client.guildPrefixes[msg.channel.guild.id] : client.commandOptions.prefix
+                                                        }
                                                     ]
                                                 }
                                             }).then(() => {
@@ -141,13 +140,13 @@ module.exports = {
                                                     url: msg.author.dynamicAvatarURL(msg.author.avatar.startsWith('a_') ? 'gif' : 'png', 256)
                                                 },
                                                 fields: [{
-                                                    name: `${selection === settings.flags.indexOf('SWEAR_RESPONSES') ? '> ' : ''}Swear Responses`,
-                                                    value: `are currently \`${settings.getFlags(userSettings.flags).includes('SWEAR_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
-                                                },
-                                                {
-                                                    name: `${selection === settings.flags.indexOf('RANDOM_RESPONSES') ? '> ' : ''}Random Responses`,
-                                                    value: `are currently \`${settings.getFlags(userSettings.flags).includes('RANDOM_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
-                                                }
+                                                        name: `${selection === settings.flags.indexOf('SWEAR_RESPONSES') ? '> ' : ''}Swear Responses`,
+                                                        value: `are currently \`${settings.getFlags(userSettings.flags).includes('SWEAR_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
+                                                    },
+                                                    {
+                                                        name: `${selection === settings.flags.indexOf('RANDOM_RESPONSES') ? '> ' : ''}Random Responses`,
+                                                        value: `are currently \`${settings.getFlags(userSettings.flags).includes('RANDOM_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
+                                                    }
                                                 ]
                                             }
                                         }).then(() => {
@@ -205,17 +204,17 @@ module.exports = {
                                                 url: msg.channel.guild.dynamicIconURL(msg.channel.guild.icon.startsWith('a_') ? 'gif' : 'png', 256)
                                             },
                                             fields: [{
-                                                name: `${selection === settings.flags.indexOf('SWEAR_RESPONSES') ? '> ' : ''}Swear Responses`,
-                                                value: `are currently \`${settings.getFlags(guildSettings.flags).includes('SWEAR_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
-                                            },
-                                            {
-                                                name: `${selection === settings.flags.indexOf('RANDOM_RESPONSES') ? '> ' : ''}Random Responses`,
-                                                value: `are currently \`${settings.getFlags(guildSettings.flags).includes('RANDOM_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
-                                            },
-                                            {
-                                                name: 'Prefix',
-                                                value: client.guildPrefixes[msg.channel.guild.id] ? client.guildPrefixes[msg.channel.guild.id] : client.commandOptions.prefix
-                                            }
+                                                    name: `${selection === settings.flags.indexOf('SWEAR_RESPONSES') ? '> ' : ''}Swear Responses`,
+                                                    value: `are currently \`${settings.getFlags(guildSettings.flags).includes('SWEAR_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
+                                                },
+                                                {
+                                                    name: `${selection === settings.flags.indexOf('RANDOM_RESPONSES') ? '> ' : ''}Random Responses`,
+                                                    value: `are currently \`${settings.getFlags(guildSettings.flags).includes('RANDOM_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
+                                                },
+                                                {
+                                                    name: 'Prefix',
+                                                    value: client.guildPrefixes[msg.channel.guild.id] ? client.guildPrefixes[msg.channel.guild.id] : client.commandOptions.prefix
+                                                }
                                             ]
                                         }
                                     });
@@ -232,17 +231,17 @@ module.exports = {
                                                 url: msg.channel.guild.dynamicIconURL(msg.channel.guild.icon.startsWith('a_') ? 'gif' : 'png', 256)
                                             },
                                             fields: [{
-                                                name: `${selection === settings.flags.indexOf('SWEAR_RESPONSES') ? '> ' : ''}Swear Responses`,
-                                                value: `are currently \`${settings.getFlags(guildSettings.flags).includes('SWEAR_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
-                                            },
-                                            {
-                                                name: `${selection === settings.flags.indexOf('RANDOM_RESPONSES') ? '> ' : ''}Random Responses`,
-                                                value: `are currently \`${settings.getFlags(guildSettings.flags).includes('RANDOM_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
-                                            },
-                                            {
-                                                name: 'Prefix',
-                                                value: client.guildPrefixes[msg.channel.guild.id] ? client.guildPrefixes[msg.channel.guild.id] : client.commandOptions.prefix
-                                            }
+                                                    name: `${selection === settings.flags.indexOf('SWEAR_RESPONSES') ? '> ' : ''}Swear Responses`,
+                                                    value: `are currently \`${settings.getFlags(guildSettings.flags).includes('SWEAR_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
+                                                },
+                                                {
+                                                    name: `${selection === settings.flags.indexOf('RANDOM_RESPONSES') ? '> ' : ''}Random Responses`,
+                                                    value: `are currently \`${settings.getFlags(guildSettings.flags).includes('RANDOM_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
+                                                },
+                                                {
+                                                    name: 'Prefix',
+                                                    value: client.guildPrefixes[msg.channel.guild.id] ? client.guildPrefixes[msg.channel.guild.id] : client.commandOptions.prefix
+                                                }
                                             ]
                                         }
                                     });
@@ -271,17 +270,17 @@ module.exports = {
                                                     url: msg.channel.guild.dynamicIconURL(msg.channel.guild.icon.startsWith('a_') ? 'gif' : 'png', 256)
                                                 },
                                                 fields: [{
-                                                    name: `${selection === settings.flags.indexOf('SWEAR_RESPONSES') ? '> ' : ''}Swear Responses`,
-                                                    value: `are currently \`${settings.getFlags(guildSettings.flags).includes('SWEAR_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
-                                                },
-                                                {
-                                                    name: `${selection === settings.flags.indexOf('RANDOM_RESPONSES') ? '> ' : ''}Random Responses`,
-                                                    value: `are currently \`${settings.getFlags(guildSettings.flags).includes('RANDOM_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
-                                                },
-                                                {
-                                                    name: 'Prefix',
-                                                    value: client.guildPrefixes[msg.channel.guild.id] ? client.guildPrefixes[msg.channel.guild.id] : client.commandOptions.prefix
-                                                }
+                                                        name: `${selection === settings.flags.indexOf('SWEAR_RESPONSES') ? '> ' : ''}Swear Responses`,
+                                                        value: `are currently \`${settings.getFlags(guildSettings.flags).includes('SWEAR_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
+                                                    },
+                                                    {
+                                                        name: `${selection === settings.flags.indexOf('RANDOM_RESPONSES') ? '> ' : ''}Random Responses`,
+                                                        value: `are currently \`${settings.getFlags(guildSettings.flags).includes('RANDOM_RESPONSES') ? 'ENABLED' : 'DISABLED'}\``
+                                                    },
+                                                    {
+                                                        name: 'Prefix',
+                                                        value: client.guildPrefixes[msg.channel.guild.id] ? client.guildPrefixes[msg.channel.guild.id] : client.commandOptions.prefix
+                                                    }
                                                 ]
                                             }
                                         });

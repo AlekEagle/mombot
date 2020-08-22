@@ -8,11 +8,16 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize(`postgres://alekeagle:${u_wut_m8.serverPass}@127.0.0.1:5432/alekeagle`, {
     logging: false
 });
-class MomPrefixes extends Sequelize.Model { };
+class MomPrefixes extends Sequelize.Model {};
 MomPrefixes.init({
-    serverID: { type: Sequelize.STRING, primaryKey: true },
+    serverID: {
+        type: Sequelize.STRING,
+        primaryKey: true
+    },
     prefix: Sequelize.STRING
-}, { sequelize });
+}, {
+    sequelize
+});
 MomPrefixes.sync({
     force: false
 }).then(() => {
@@ -32,7 +37,9 @@ class thisModule extends EventEmitter {
                         }
                     }).then(prefix => {
                         if (prefix) {
-                            prefix.update({ prefix: value.prefix }).then(p => {
+                            prefix.update({
+                                prefix: value.prefix
+                            }).then(p => {
                                 this.emit('updatePrefix', p.serverID, p.prefix);
                                 resolve();
                             }, err => {

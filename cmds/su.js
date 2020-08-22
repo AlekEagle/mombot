@@ -19,14 +19,14 @@ module.exports = {
                         content: `${client.guildPrefixes[msg.channel.guild.id] ? client.guildPrefixes[msg.channel.guild.id] : 'd!'}${args.slice(1).join(' ')}`,
                         member: msg.channel.guild.members.get(userID)
                     }
-                }else {
+                } else {
                     thing = {
                         ...msg,
                         author: client.users.get(userID),
                         content: `${client.guildPrefixes[msg.channel.guild.id] ? client.guildPrefixes[msg.channel.guild.id] : 'd!'}${args.slice(1).join(' ')}`
                     }
                 }
-            }else {
+            } else {
                 thing = {
                     ...msg,
                     author: client.users.get(userID),
@@ -37,8 +37,8 @@ module.exports = {
             if (typeof execedCmd === 'object' || typeof execedCmd === 'string') {
                 msg.channel.createMessage(execedCmd);
             }
-        }else client.createMessage(msg.channel.id, 'You need the permission `BOT_OWNER` to use this command!')
-        
+        } else client.createMessage(msg.channel.id, 'You need the permission `BOT_OWNER` to use this command!')
+
     },
 
     options: {
