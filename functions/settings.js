@@ -44,7 +44,7 @@ module.exports = {
             }
         }));
         if (!value) {
-            return {id, flags: module.exports.toFlags(["RANDOM_RESPONSES", "SWEAR_RESPONSES"])};
+            return await new Promise((resolve, reject) => resolve({id, flags: module.exports.toFlags(["RANDOM_RESPONSES", "SWEAR_RESPONSES"])}));
         }else {
             cache[id] = value[0];
             return value[0];
