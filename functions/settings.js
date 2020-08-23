@@ -38,21 +38,35 @@ module.exports = {
     },
     getValueByID: async (id) => {
         if (cache.hasOwnProperty(id)) return cache[id];
-        let value = (await MOptions.findOrCreate({
+        let value = (await MOptions.findOne({
             where: {
                 id
-            }, defaults: {id, flags: module.exports.toFlags(["RANDOM_RESPONSES", "SWEAR_RESPONSES"])}
+            }
         }));
-        cache[id] = value[0];
-        return value[0];
+        if (!value) {
+            return {id, flags: module.exports.toFlags(["RANDOM_RESPONSES", "SWEAR_RESPONSES"])};
+        }else {
+            cache[id] = value[0];
+            return value[0];
+        }
     },
     updateValue: async (options) => {
-        cache[options.id] = options;
-        return await MOptions.update(options, {
-            where: {
-                id: options.id
-            }
-        });
+        if (options.flags === 27) {
+            delete cache[options.id];
+            let res = (await MOptions.findOne({
+                where: {
+                    id: options.id
+                }
+            }));
+            return await res.destroy();
+        } else {
+            cache[options.id] = options;
+            return await MOptions.update(options, {
+                where: {
+                    id: options.id
+                }
+            });
+        }
     },
     flags: flagNames
 }
