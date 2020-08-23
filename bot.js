@@ -2,7 +2,6 @@ const CommandClient = require('eris-command-handler');
 const env = process.env;
 const fs = require('fs');
 const u_wut_m8 = require('./.auth.json');
-const DBL = require('dblapi.js');
 const request = require('request');
 const Logger = require('./functions/logger');
 const console = new Logger();
