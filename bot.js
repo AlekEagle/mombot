@@ -5,6 +5,7 @@ const u_wut_m8 = require('./.auth.json');
 const request = require('request');
 const Logger = require('./functions/logger');
 const console = new Logger();
+let settings = require('./functions/settings');
 let globalBlacklist = require('./functions/globalBlacklist');
 let stats = require('./functions/commandStatistics');
 let owners = require('./functions/getOwners');
