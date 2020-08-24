@@ -1,4 +1,4 @@
-require('dotenv')
+require('dotenv').config();
 const CommandClient = require('eris-command-handler');
 const env = process.env;
 const fs = require('fs');
@@ -37,8 +37,8 @@ const client = new CommandClient(env.DEBUG ? env.otherToken : env.token, {
     prefix: env.DEBUG ? 'test!' : 'm!'
 });
 
-client.once("shardReady", () => {
-    updateShardCount(s.id + 1);
+client.on("shardReady", id => {
+    updateShardCount(id + 1);
 });
 
 client.editStatus('dnd', {

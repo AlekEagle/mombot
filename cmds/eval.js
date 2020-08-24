@@ -11,7 +11,6 @@ let genRanString = require('../functions/genRanString');
 let stats = require('../functions/commandStatistics');
 let memory = require('../functions/memoryUsage');
 let lists = require('../functions/lists');
-let suggestions = require('../functions/suggestionsHandler');
 let fs = require('fs');
 
 const Logger = require('../functions/logger');

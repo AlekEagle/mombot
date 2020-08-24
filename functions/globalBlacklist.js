@@ -2,10 +2,6 @@
 
 const Sequelize = require('sequelize');
 const ms = require('ms');
-const sequelize = new Sequelize(`postgres://alek:${process.env.serverPass}@127.0.0.1:5432/alekeagle`, {
-    logging: false
-});
-
 class GlobalBlacklist extends Sequelize.Model {};
 GlobalBlacklist.init({
     id: {
@@ -14,7 +10,7 @@ GlobalBlacklist.init({
     },
     cmds: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING)
 }, {
-    sequelize
+    sequelize: _database
 });
 
 GlobalBlacklist.sync();

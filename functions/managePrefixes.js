@@ -4,9 +4,6 @@ const EventEmitter = require('events').EventEmitter;
 const Logger = require('./logger');
 const console = new Logger();
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize(`postgres://alek:${process.env.serverPass}@127.0.0.1:5432/alekeagle`, {
-    logging: false
-});
 class MomPrefixes extends Sequelize.Model {};
 MomPrefixes.init({
     serverID: {
@@ -15,7 +12,7 @@ MomPrefixes.init({
     },
     prefix: Sequelize.STRING
 }, {
-    sequelize
+    sequelize: _database
 });
 MomPrefixes.sync({
     force: false

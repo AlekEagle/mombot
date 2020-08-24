@@ -1,16 +1,13 @@
 'use strict';
 
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize(`postgres://alek:${process.env.serverPass}@127.0.0.1:5432/alekeagle`, {
-    logging: false
-});
 class MOptions extends Sequelize.Model {};
 MOptions.init({
     id: { type: Sequelize.DataTypes.STRING, primaryKey: true },
     flags: Sequelize.DataTypes.SMALLINT,
     RNG: Sequelize.DataTypes.FLOAT
 }, {
-    sequelize
+    sequelize: _database
 });
 
 MOptions.sync();
