@@ -1,5 +1,5 @@
 node_modules
-.auth.json
+
 blacklist.blk
 gblacklist.blk
 pblacklist.blk
@@ -9,3 +9,4 @@ cmdstats.json
 suggestions.json
 owners.json
 lists.json
+.env

@@ -1,8 +1,7 @@
 "use strict";
 
-let u_wut_m8 = require("../.auth.json");
 let DBL = require("dblapi.js");
-const dbl = new DBL(u_wut_m8.dblToken, {});
+const dbl = new DBL(process.env.dblToken, {});
 
 module.exports = {
     name: "guildCreate",
@@ -11,7 +10,7 @@ module.exports = {
         var bots = guild.members.filter((m) => m.bot).length;
         var notBots = guild.memberCount - bots;
         var percent = Math.floor((bots / guild.memberCount) * 100);
-        client.executeWebhook("547588483502440464", u_wut_m8.webhookTokenThing, {
+        client.executeWebhook("547588483502440464", process.env.webhookTokenThing, {
             embeds: [{
                 title: "Server Create Alert",
                 thumbnail: {

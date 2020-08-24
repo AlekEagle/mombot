@@ -1,17 +1,21 @@
+require('dotenv')
 const CommandClient = require('eris-command-handler');
 const env = process.env;
 const fs = require('fs');
-const u_wut_m8 = require('./.auth.json');
 const request = require('request');
 const Logger = require('./functions/logger');
 const console = new Logger();
-let settings = require('./functions/settings');
+const Sequelize = require('sequelize');
+global._database = new Sequelize(
+    `postgres://alek:${env.serverPass}@127.0.0.1:5432/alekeagle`,
+    {
+        logging: false,
+    }
+);
 let globalBlacklist = require('./functions/globalBlacklist');
 let stats = require('./functions/commandStatistics');
 let owners = require('./functions/getOwners');
 let prefixes = require('./functions/managePrefixes');
-let suggestions = require('./functions/suggestionsHandler');
-let i = 0;
 const Sentry = require('@sentry/node');
 Sentry.init({
     dsn: "https://1339921d7a004e06bf7207c2b2ee3132@o238460.ingest.sentry.io/5400574"
@@ -21,12 +25,7 @@ owners.initializeOwners().then(list => {
 }, (err) => {
     console.error(err)
 });
-suggestions.initializeSuggestions().then(suggestions => {
-    console.log(`Loaded suggestions. There are currently ${suggestions.length} suggestions, get crackin!`);
-}, (err) => {
-    console.error(err)
-});
-const client = new CommandClient(env.DEBUG ? u_wut_m8.otherToken : u_wut_m8.token, {
+const client = new CommandClient(env.DEBUG ? env.otherToken : env.token, {
     maxShards: env.DEBUG ? 3 : 'auto',
     getAllUsers: true,
     messageLimit: 0,
@@ -38,15 +37,30 @@ const client = new CommandClient(env.DEBUG ? u_wut_m8.otherToken : u_wut_m8.toke
     prefix: env.DEBUG ? 'test!' : 'm!'
 });
 
+client.once("shardReady", () => {
+    updateShardCount(s.id + 1);
+});
+
 client.editStatus('dnd', {
     type: 3,
     name: `myself start up!`
 });
 
+client.once('hello', () => updateShardCount());
+
+function updateShardCount(snum) {
+    var avail = client.shards.length;
+    console.log(
+        `Shard Status: ${Math.round(((snum || 0) / avail) * 100) || 0}% [${
+        snum || 0
+        }/${avail}]`
+    );
+}
+
 client.on('ready', () => {
     console.log('Connected.');
     if (!env.DEBUG) {
-        request.post(`https://maker.ifttt.com/trigger/bot_connected/with/key/${u_wut_m8.iftttToken}`, {
+        request.post(`https://maker.ifttt.com/trigger/bot_connected/with/key/${env.iftttToken}`, {
             json: {
                 value1: 'Mom Bot'
             }
@@ -58,7 +72,7 @@ client.on('ready', () => {
         type: 0,
         name: `try m!help`
     });
-    client.users.set('1', {id: '1', createdAt: '2015-05-15T04:00:00.000Z', mention: '<@1>', bot: true, username: 'Clyde', discriminator: '0001', avatar: 'f78426a064bc9dd24847519259bc42af', system: true});
+    client.users.set('1', { id: '1', createdAt: '2015-05-15T04:00:00.000Z', mention: '<@1>', bot: true, username: 'Clyde', discriminator: '0001', avatar: 'f78426a064bc9dd24847519259bc42af', system: true });
     loadCmds();
     loadEvts();
 });
@@ -136,11 +150,25 @@ global.loadCmds = (reload) => {
                                         msg.channel.createMessage('This server has been blacklisted from Mom Bot!, if you think this is a mistake, please go here https://alekeagle.com/discord and ask AlekEagle#0001 about this issue.\nThis server may no longer use these commands: `' + stat.cmds.join(', ') + '`');
                                         return;
                                     } else {
-                                        cmdFile.exec(client, msg, args);
+                                        try {
+                                            cmdFile.exec(client, msg, args);
+                                        } catch (err) {
+                                            msg.channel.createMessage(
+                                                "An unexpected error has occured in the processing of this command, if the problem persists please contact Mom Bot's Support Team: https://alekeagle.com/d"
+                                            );
+                                            throw err;
+                                        }
                                     }
                                 });
                             } else {
-                                cmdFile.exec(client, msg, args);
+                                try {
+                                    cmdFile.exec(client, msg, args);
+                                } catch (err) {
+                                    msg.channel.createMessage(
+                                        "An unexpected error has occured in the processing of this command, if the problem persists please contact Mom Bot's Support Team: https://alekeagle.com/d"
+                                    );
+                                    throw err;
+                                }
                             }
                         }
                     });
