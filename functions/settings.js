@@ -44,10 +44,10 @@ module.exports = {
             }
         }));
         if (!value) {
-            return await new Promise((resolve, reject) => resolve({id, flags: module.exports.toFlags(["RANDOM_RESPONSES", "SWEAR_RESPONSES"])}));
+            return new Promise((resolve, reject) => resolve({id, flags: module.exports.toFlags(["RANDOM_RESPONSES", "SWEAR_RESPONSES"])}));
         }else {
-            cache[id] = value[0];
-            return value[0];
+            cache[id] = value.toJSON();
+            return value.toJSON();
         }
     },
     updateValue: async (options) => {
