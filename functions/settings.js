@@ -1,7 +1,7 @@
 'use strict';
 
 const Sequelize = require('sequelize');
-class MOptions extends Sequelize.Model {};
+class MOptions extends Sequelize.Model { };
 MOptions.init({
     id: { type: Sequelize.DataTypes.STRING, primaryKey: true },
     flags: Sequelize.DataTypes.SMALLINT,
@@ -40,14 +40,14 @@ module.exports = {
             }
         }));
         if (!value) {
-            return new Promise((resolve, reject) => resolve({id, flags: module.exports.toFlags(["RANDOM_RESPONSES", "SWEAR_RESPONSES"])}));
-        }else {
+            return new Promise((resolve, reject) => resolve({ id, flags: module.exports.toFlags(["RANDOM_RESPONSES", "SWEAR_RESPONSES"]) }));
+        } else {
             cache[id] = value.toJSON();
             return value.toJSON();
         }
     },
     updateValue: async (options) => {
-        if (options.flags === 27) {
+        if (options.flags === module.exports.toFlags(["RANDOM_RESPONSES", "SWEAR_RESPONSES"])) {
             delete cache[options.id];
             let res = (await MOptions.findOne({
                 where: {
@@ -57,11 +57,20 @@ module.exports = {
             return await res.destroy();
         } else {
             cache[options.id] = options;
-            return await MOptions.update(options, {
+            let oldVal = await MOptions.findOne({
                 where: {
-                    id: options.id
-                }
+                    id: options.id,
+                },
             });
+            if (oldVal === null) {
+                return await MOptions.create(options);
+            } else {
+                return await MOptions.update(options, {
+                    where: {
+                        id: options.id,
+                    },
+                });
+            }
         }
     },
     flags: flagNames
