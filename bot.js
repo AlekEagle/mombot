@@ -27,7 +27,6 @@ owners.initializeOwners().then(list => {
 });
 const client = new CommandClient(env.DEBUG ? env.otherToken : env.token, {
     maxShards: env.DEBUG ? 3 : 'auto',
-    getAllUsers: true,
     messageLimit: 0,
     defaultImageFormat: 'png',
     defaultImageSize: 2048
@@ -51,8 +50,7 @@ client.once('hello', () => updateShardCount());
 function updateShardCount(snum) {
     var avail = client.shards.length;
     console.log(
-        `Shard Status: ${Math.round(((snum || 0) / avail) * 100) || 0}% [${
-        snum || 0
+        `Shard Status: ${Math.round(((snum || 0) / avail) * 100) || 0}% [${snum || 0
         }/${avail}]`
     );
 }
