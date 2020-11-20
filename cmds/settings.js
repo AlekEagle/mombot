@@ -44,11 +44,11 @@ module.exports = {
                 channelSelection = msg.channel.id,
                 timeout = null;
 
-            function handleReactions(mesg, emoji, userID) {
-                if (!msg.channel.guild.members.get(userID).user.bot) {
-                    message.removeReaction(emoji.name, userID).catch(() => { });
+            function handleReactions(mesg, emoji, user) {
+                if (!user.bot) {
+                    message.removeReaction(emoji.name, user.id).catch(() => { });
                 }
-                if (userID !== msg.author.id || mesg.id !== message.id) return;
+                if (user.id !== msg.author.id || mesg.id !== message.id) return;
                 clearTimeout(timeout);
                 timeout = setTimeout(() => {
                     message.channel.createMessage(`${msg.member.mention} the menu was cancelled due to inactivity!`).then(mesg => {
