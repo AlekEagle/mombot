@@ -29,7 +29,8 @@ const client = new CommandClient(env.DEBUG ? env.otherToken : env.token, {
     maxShards: env.DEBUG ? 3 : 'auto',
     messageLimit: 0,
     defaultImageFormat: 'png',
-    defaultImageSize: 2048
+    defaultImageSize: 2048,
+    restMode: true
 }, {
     description: 'The wife of Dad Bot! Invite him at https://alekeagle.com/dad_bot',
     owner: 'AlekEagle#0001',
