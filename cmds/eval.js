@@ -1,59 +1,175 @@
 'use strict';
 
-let nums = require('../functions/numbers');
-let settings = require('../functions/settings');
-let globalBlacklist = require('../functions/globalBlacklist');
-let owners = require('../functions/getOwners');
-let util = require('util');
-let prefixes = require('../functions/managePrefixes');
-let toHHMMSS = require('../functions/toReadableTime');
-let genRanString = require('../functions/genRanString');
-let stats = require('../functions/commandStatistics');
-let memory = require('../functions/memoryUsage');
-let lists = require('../functions/lists');
-let fs = require('fs');
+const owners = require('../functions/getOwners'),
+  util = require('util'),
+  AsyncFunction = Object.getPrototypeOf(async function () {}).constructor,
+  fetch = require('node-fetch'),
+  formdata = require('form-data');
 
-const Logger = require('../functions/logger');
-const console = new Logger();
+function evaluateSafe(code, args) {
+  const emitter = new (require('events'))();
+
+  function safeWrapSetter(fn, setter, clearer, ...args) {
+    const timeout = setter((...args) => {
+      try {
+        return fn(...args);
+      } catch (error) {
+        clearer(timeout);
+        emitter.emit('timeoutError', error, setter.name);
+      }
+    }, ...args);
+    return timeout;
+  }
+
+  const argss = Object.entries(
+    Object.assign(args, {
+      setTimeout: (fn, ...args) => {
+        return safeWrapSetter(fn, setTimeout, clearTimeout, ...args);
+      },
+      setInterval: (fn, ...args) => {
+        return safeWrapSetter(fn, setInterval, clearInterval, ...args);
+      },
+      setImmediate: (fn, ...args) => {
+        return safeWrapSetter(fn, setImmediate, clearImmediate, ...args);
+      }
+    })
+  );
+
+  const evalFn = new AsyncFunction(...argss.map(arg => arg[0]), `${code}`);
+  Promise.resolve()
+    .then(() => evalFn(...argss.map(arg => arg[1])))
+    .then(
+      thing => {
+        emitter.emit('complete', thing, false);
+      },
+      thing => {
+        emitter.emit('complete', thing, true);
+      }
+    );
+  return emitter;
+}
 
 module.exports = {
-    name: 'eval',
+  name: 'eval',
 
-    exec: (client, msg, args) => {
-        if (owners.isOwner(msg.author.id)) {
-            try {
-                var evalCommand = args.join(' ');
-                let evaluation = eval(evalCommand);
-                if (typeof evaluation !== "string") {
-                    evaluation = util.inspect(evaluation).replace(client.token, '(insert token here)')
-                } else {
-                    evaluation = evaluation.replace(client.token, '(insert token here)')
+  exec: async (client, msg, args) => {
+    const isAdmin = await owners.isAdmin(msg.author.id);
+    if (isAdmin) {
+      let emitter = evaluateSafe(
+        args.join(' ').replace(/(^(?:```(?:js\n))|(?:(?:\n?)```)$)/g, ''),
+        {
+          msg: msg,
+          client: client,
+          require: require
+        }
+      );
+      const evaledAt = Date.now();
+
+      emitter.once('complete', (result, isErr) => {
+        result = typeof result !== 'string' ? util.inspect(result) : result;
+        const buffer = Buffer.from(result);
+        if (result.length > 1900) {
+          if (buffer.length > 8388608) {
+            msg.channel.createMessage(
+              "The output is too big for a file! You're outta' luck!"
+            );
+          } else {
+            let fileFormData = new formdata();
+            fileFormData.append('file', buffer, 'eval output.txt');
+            fetch('https://alekeagle.me/api/upload', {
+              method: 'POST',
+              body: fileFormData,
+              headers: {
+                Authorization: process.env.alekeagleMEToken
+              }
+            })
+              .then(res => res.text())
+              .then(url => {
+                msg.channel.createMessage(
+                  `The output is too big to fit in a message, here's a file instead! ${url}`
+                );
+              });
+          }
+        } else {
+          msg.channel
+            .createMessage(
+              `${
+                isErr ? 'An error occurred:\n' : ''
+              }\`\`\`js\n${result}\n\`\`\``
+            )
+            .catch(() => {
+              let fileFormData = new formdata();
+              fileFormData.append('file', buffer, 'eval output.txt');
+              fetch('https://alekeagle.me/api/upload', {
+                method: 'POST',
+                body: fileFormData,
+                headers: {
+                  Authorization: process.env.alekeagleMEToken
                 }
-                if (evaluation.length > 2000) {
-                    client.createMessage(msg.channel.id, 'Output too large, it should be on your website at https://alekeagle.com/Mom_bot/eval_out').then(() => {
-                        fs.writeFile('/home/alekeagle/node_server/root/mom_bot/eval_out/eval_output.txt', evaluation.replace(/\n/g, '<br>'), (err) => {
-                            if (err != undefined) {
-                                client.createMessage(msg.channel.id, 'An error occurred while this action was being preformed error code: `' + err.code + '`')
-                            }
-                        });
-                    });
-                } else {
-                    client.createMessage(msg.channel.id, evaluation)
-                }
-            } catch (err) {
-                client.createMessage(msg.channel.id, 'OOF ERROR:\ninput: ```' + evalCommand + '``` output: ```' + err + '```')
+              })
+                .then(res => res.text())
+                .then(url => {
+                  msg.channel.createMessage(
+                    `The output is too big to fit in a message, here's a file instead! ${url}`
+                  );
+                });
+            });
+        }
+      });
+
+      emitter.on('timeoutError', (error, type) => {
+        error = typeof error !== 'string' ? util.inspect(error) : error;
+        const extra =
+          Date.now() - evaledAt >= 10000 ? `${msg.author.mention}! ` : '';
+        const buffer = Buffer.from(error);
+        if (error.length > 1900) {
+          let fileFormData = new formdata();
+          fileFormData.append('file', buffer, 'eval output.txt');
+          fetch('https://alekeagle.me/api/upload', {
+            method: 'POST',
+            body: fileFormData,
+            headers: {
+              Authorization: process.env.alekeagleMEToken
             }
-        } else client.createMessage(msg.channel.id, 'You need the permission `BOT_OWNER` to use this command!')
-
-    },
-
-    options: {
-        hidden: true,
-        fullDescription: 'Evaluates code with a command (owner only)',
-        aliases: [
-            'evaluate',
-            'ev'
-        ],
-        removeWhitespace: false
+          })
+            .then(res => res.text())
+            .then(url => {
+              msg.channel.createMessage(
+                `${extra} There was an error in ${type} but it was too big to fit in a message, here\'s a file instead! ${url} I've also cleared the ${type} for you to prevent any more errors.`
+              );
+            });
+        } else {
+          msg.channel
+            .createMessage(
+              `${extra} Error in ${type}: \`\`\`js\n${error}\n\`\`\`\nI've cleared the ${type} for you to prevent any more errors.`
+            )
+            .catch(() => {
+              let fileFormData = new formdata();
+              fileFormData.append('file', buffer, 'eval output.txt');
+              fetch('https://alekeagle.me/api/upload', {
+                method: 'POST',
+                body: fileFormData,
+                headers: {
+                  Authorization: process.env.alekeagleMEToken
+                }
+              })
+                .then(res => res.text())
+                .then(url => {
+                  msg.channel.createMessage(
+                    `${extra} There was an error in ${type} but it was too big to fit in a message, here\'s a file instead! ${url} I've also cleared the ${type} for you to prevent any more errors.`
+                  );
+                });
+            });
+        }
+      });
     }
-}
+  },
+
+  options: {
+    hidden: true,
+    fullDescription: 'Evaluates code with a command (owner only)',
+    aliases: ['evaluate', 'ev'],
+    removeWhitespace: true,
+    whitespaceSeparator: /(\s(?<!\n))/g
+  }
+};
