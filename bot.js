@@ -7,7 +7,7 @@ const Logger = require('./functions/logger');
 const console = new Logger();
 const Sequelize = require('sequelize');
 global._database = new Sequelize(
-    `postgres://alek:${env.serverPass}@127.0.0.1:5432/alekeagle`,
+    `postgres://alek:${env.serverPass}@mombotdb.local:5432/alekeagle`,
     {
         logging: false,
     }
