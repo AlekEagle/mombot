@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 const globalBlacklistDB = new Sequelize(
-  `postgres://alek:${env.serverPass}@mombotdb.local:5432/alekeagle`,
+  `postgres://alek:${process.env.serverPass}@mombotdb.local:5432/alekeagle`,
   {
     logging: false
   }
