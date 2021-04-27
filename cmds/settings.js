@@ -64,7 +64,7 @@ module.exports = {
                     case 'idle':
                         switch (emoji.name) {
                             case '🌆':
-                                if (msg.member.permission.has('manageServer') || msg.member.permission.has('administrator') || owners.isAdminOwner(msg.author.id)) {
+                                if (msg.member.permission.has('manageGuild') || msg.member.permission.has('administrator') || owners.isAdminOwner(msg.author.id)) {
                                     message.removeReactions().then(() => {
                                         state = 'serversettings';
                                         settings.getValueByID(msg.channel.guild.id).then(guildSettings => {
