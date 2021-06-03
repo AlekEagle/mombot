@@ -12,14 +12,19 @@ global._database = new Sequelize(
     logging: false
   }
 );
+global._remoteDB = new Sequelize(
+  `postgres://alek:${process.env.serverPass}@mombotdb.local:5432/alekeagle`,
+  {
+    logging: false
+  }
+);
 let globalBlacklist = require('./functions/globalBlacklist');
 let stats = require('./functions/commandStatistics');
 let owners = require('./functions/getOwners');
 let prefixes = require('./functions/managePrefixes');
 const Sentry = require('@sentry/node');
 Sentry.init({
-  dsn:
-    'https://1339921d7a004e06bf7207c2b2ee3132@o238460.ingest.sentry.io/5400574'
+  dsn: 'https://1339921d7a004e06bf7207c2b2ee3132@o238460.ingest.sentry.io/5400574'
 });
 owners.initializeOwners().then(
   list => {

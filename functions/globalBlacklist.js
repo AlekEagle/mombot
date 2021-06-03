@@ -1,12 +1,6 @@
 'use strict';
 
 const Sequelize = require('sequelize');
-const globalBlacklistDB = new Sequelize(
-  `postgres://alek:${process.env.serverPass}@mombotdb.local:5432/alekeagle`,
-  {
-    logging: false
-  }
-);
 const ms = require('ms');
 class GlobalBlacklist extends Sequelize.Model {}
 GlobalBlacklist.init(
@@ -18,7 +12,7 @@ GlobalBlacklist.init(
     cmds: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING)
   },
   {
-    sequelize: globalBlacklistDB
+    sequelize: _remoteDB
   }
 );
 
