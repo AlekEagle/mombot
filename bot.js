@@ -26,16 +26,6 @@ const Sentry = require('@sentry/node');
 Sentry.init({
   dsn: 'https://1339921d7a004e06bf7207c2b2ee3132@o238460.ingest.sentry.io/5400574'
 });
-owners.initializeOwners().then(
-  list => {
-    console.log(
-      `Loaded owners. There are currently ${list.users.length} owners.`
-    );
-  },
-  err => {
-    console.error(err);
-  }
-);
 const client = new CommandClient(
   env.DEBUG ? env.otherToken : env.token,
   {
