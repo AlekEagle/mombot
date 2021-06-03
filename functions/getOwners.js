@@ -8,7 +8,7 @@ Owners.init(
     id: { type: Sequelize.STRING, primaryKey: true },
     admin: Sequelize.BOOLEAN
   },
-  { sequelize: _database }
+  { sequelize: _remoteDB }
 );
 Owners.sync({
   force: false
