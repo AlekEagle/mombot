@@ -20,7 +20,7 @@ global._remoteDB = new Sequelize(
 );
 let globalBlacklist = require('./functions/globalBlacklist');
 let stats = require('./functions/commandStatistics');
-let owners = require('./functions/getOwners');
+require('./functions/getOwners');
 let prefixes = require('./functions/managePrefixes');
 const Sentry = require('@sentry/node');
 Sentry.init({
@@ -37,7 +37,7 @@ const client = new CommandClient(
   },
   {
     description:
-      'The wife of Dad Bot! Invite him at https://alekeagle.com/dad_bot',
+      'The wife of Dad Bot! Invite him at https://alekeagle.com/dad-bot',
     owner: 'AlekEagle#0001',
     prefix: env.DEBUG ? 'test!' : 'm!'
   }
