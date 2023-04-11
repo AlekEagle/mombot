@@ -1,10 +1,5 @@
 node_modules
 
-blacklist.blk
-gblacklist.blk
-pblacklist.blk
-stats.json
-cmdstats.json
 .vscode
-suggestions.json
 .env
+dist
