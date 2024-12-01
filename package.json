@@ -14,7 +14,7 @@
     "eris-command-handler": "^1.1.4",
     "express": "^4.17.1",
     "ms": "^2.1.2",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "perspective-api-client": "^3.1.0",
     "pg": "^8.3.0",
     "pg-hstore": "^2.3.3",
